@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -17,7 +19,11 @@ class BookController extends Controller
     // Show the form for creating a new book
     public function create()
     {
-        return view('books.create');
+
+        $authors = Author::all();
+        $categories = Category::all();
+
+        return view('books.create', compact('authors', 'categories'));
     }
 
     // Store a new book in database
@@ -58,8 +64,10 @@ class BookController extends Controller
     // Show the form for editing the specified book
     public function edit($id)
     {
+        $authors = Author::all();
+        $categories = Category::all();
         $book = Book::findOrFail($id);
-        return view('books.edit', compact('book'));
+        return view('books.edit', compact('book','authors', 'categories'));
     }
 
     // Update the specified book in database
