@@ -12,14 +12,13 @@ class BookController extends Controller
     // Display all books
     public function index()
     {
-        $books = Book::all();
+        $books = Book::orderBy('title', 'asc')->get();
         return view('books.index', compact('books'));
     }
 
     // Show the form for creating a new book
     public function create()
     {
-
         $authors = Author::all();
         $categories = Category::all();
 
@@ -42,10 +41,9 @@ class BookController extends Controller
         $book->author_id = $request->author_id;
         $book->category_id = $request->category_id;
 
-        // Handle image upload
+        // Handle image upload and store as blob
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $book->image = $imagePath;
+            $book->image = file_get_contents($request->file('image')->getRealPath());
         }
 
         $book->description = $request->description;
@@ -86,14 +84,9 @@ class BookController extends Controller
         $book->author_id = $request->author_id;
         $book->category_id = $request->category_id;
 
-        // Handle image upload
+        // Handle image upload and store as blob
         if ($request->hasFile('image')) {
-
-            if ($book->image) {
-                \Storage::delete('public/' . $book->image);
-            }
-            $imagePath = $request->file('image')->store('images', 'public');
-            $book->image = $imagePath;
+            $book->image = file_get_contents($request->file('image')->getRealPath());
         }
 
         $book->description = $request->description;
@@ -106,11 +99,6 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        
-        if ($book->image) {
-            \Storage::delete('public/' . $book->image);
-        }
-
         $book->delete();
 
         return redirect()->route('books.index')->with('success', 'Book deleted successfully.');

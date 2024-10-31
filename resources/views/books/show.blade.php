@@ -2,14 +2,12 @@
 
 @section('content')
     <div class="container">
+
+        @if($book->image)
+            <img src="data:image/jpeg;base64,{{ base64_encode($book->image) }}" alt="{{ $book->title }}">
+        @endif
+
         <h1>{{ $book->title }}</h1>
-
-        <!-- @if($book->image)
-            <img src="{{ asset($book->image) }}" class="card-img-top" alt="{{ $book->title }}">
-        @else
-            <img src="{{ asset('images/book.png') }}" class="card-img-top" alt="Default Image">
-        @endif -->
-
         <p><strong>Author:</strong> {{ $book->author->name }}</p>
         <p><strong>Category:</strong> {{ $book->category->name }}</p>
         <p><strong>Description:</strong> {{ $book->description }}</p>

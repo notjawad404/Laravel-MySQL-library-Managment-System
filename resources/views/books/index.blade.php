@@ -9,11 +9,9 @@
             @foreach($books as $book)
                 <div class="col-md-4">
                     <div class="card mb-4">
-                        <!-- @if($book->image)
-                            <img src="{{ asset($book->image) }}" class="card-img-top" alt="{{ $book->title }}">
-                        @else
-                            <img src="{{ asset('images/book.png') }}" class="card-img-top" alt="Default Image">
-                        @endif -->
+                        @if($book->image)
+                            <img src="data:image/jpeg;base64,{{ base64_encode($book->image) }}" alt="{{ $book->title }}">
+                        @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $book->title }}</h5>
                             <p class="card-text">Author: {{ $book->author->name }}</p>
