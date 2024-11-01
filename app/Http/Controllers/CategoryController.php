@@ -23,7 +23,7 @@ class CategoryController extends Controller
     // Save category in the database
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required']);
+        $request->validate(['name' => 'required | unique:categories,name']);
         Category::create($request->all());
         return redirect()->route('categories.index');
     }
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     // Update the category in database
     public function update(Request $request, Category $category)
     {
-        $request->validate(['name' => 'required']);
+        $request->validate(['name' => 'required | unique:categories,name,'.$category->id]);
         $category->update($request->all());
         return redirect()->route('categories.index');
     }

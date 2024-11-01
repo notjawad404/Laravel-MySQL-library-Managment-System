@@ -3,8 +3,16 @@
 @section('content')
     <div class="container">
         <h1>Edit Book</h1>
-
-        <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to edit this book?');">
             @csrf
             @method('PUT')
             <div class="form-group">

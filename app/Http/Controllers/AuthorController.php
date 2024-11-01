@@ -23,7 +23,7 @@ class AuthorController extends Controller
     // Save author in database 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required']);
+        $request->validate(['name' => 'required | unique:authors,name']);
         Author::create($request->all());
         return redirect()->route('authors.index');
     }
@@ -37,7 +37,7 @@ class AuthorController extends Controller
     // Update the author in database 
     public function update(Request $request, Author $author)
     {
-        $request->validate(['name' => 'required']);
+        $request->validate(['name' => 'required | unique:authors,name,'.$author->id]);
         $author->update($request->all());
         return redirect()->route('authors.index');
     }

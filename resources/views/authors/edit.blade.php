@@ -3,7 +3,16 @@
 @section('content')
     <div class="container">
         <h2>Edit Author</h2>
-        <form action="{{ route('authors.update', $author->id) }}" method="POST">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{ route('authors.update', $author->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this author?');">
             @csrf
             @method('PUT')
             <div class="form-group">
